@@ -54,6 +54,15 @@ jobs:
           fi
           echo 'OK: dist/index.html references built assets.'
 
+      - name: List built files (images and assets)
+        run: |
+          echo '--- dist tree (top) ---'
+          ls -la dist || true
+          echo '--- dist/images ---'
+          ls -la dist/images || true
+          echo '--- dist/assets (first 50) ---'
+          ls -la dist/assets | head -n 50 || true
+
       - name: Add SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
 
