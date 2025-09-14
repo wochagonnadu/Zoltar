@@ -11,6 +11,14 @@ export default defineConfig({
   // we must set base to "/Zoltar/" so built asset URLs are correct.
   // Locally this does not affect dev server.
   base: '/Zoltar/',
+  // Make HTML handling explicit so Vite always treats index.html as entry
+  // and performs HTML transforms (replacing TS entry with built JS bundle).
+  appType: 'spa',
+  build: {
+    rollupOptions: {
+      input: path.resolve(__dirname, 'index.html'),
+    },
+  },
   // Vite automatically loads .env variables with VITE_ prefix.
   // No special configuration is needed here for them to be available
   // on `import.meta.env`. The `define` block was removed as it was
