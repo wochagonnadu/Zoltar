@@ -1,3 +1,7 @@
+// PATH: components/ZoltarMachine.tsx
+// WHAT: Renders the main Zoltar machine UI, including the animated character and the button to get a fortune.
+// WHY:  This is the central interactive component for the user. It manages the visual state (idle animation vs. loading).
+// RELEVANT: App.tsx, hooks/useI18n.ts, components/LoadingIcon.tsx
 
 import React, { useState, useEffect, useRef } from 'react';
 import { LoadingIcon } from './LoadingIcon';
@@ -5,7 +9,7 @@ import { useI18n } from '../hooks/useI18n';
 
 interface ZoltarMachineProps {
   onGetFortune: () => void;
-  isLoading: boolean; // This prop is for fortune fetching state
+  isLoading: boolean;
 }
 
 const ZOLTAR_ANIMATION_SEQUENCE = [
@@ -15,47 +19,42 @@ const ZOLTAR_ANIMATION_SEQUENCE = [
   '/images/right.png',
 ];
 const ZOLTAR_FRONT_IMAGE = '/images/front.png';
-const ANIMATION_INTERVAL_MS = 1500; // Time each frame is shown
+const ANIMATION_INTERVAL_MS = 1500;
 
 export const ZoltarMachine: React.FC<ZoltarMachineProps> = ({ onGetFortune, isLoading }) => {
   const { t } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const intervalRef = useRef<number | null>(null);
 
+  // This effect manages the Zoltar animation based on the loading state.
   useEffect(() => {
+    // When loading, stop the animation and show the front-facing image.
     if (isLoading) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
-      // Ensure Zoltar faces front when loading
-      if (ZOLTAR_ANIMATION_SEQUENCE[currentImageIndex] !== ZOLTAR_FRONT_IMAGE) {
-         // Find front image index or default to 0
-        const frontIndex = ZOLTAR_ANIMATION_SEQUENCE.findIndex(src => src === ZOLTAR_FRONT_IMAGE);
-        setCurrentImageIndex(frontIndex !== -1 ? frontIndex : 0);
-      }
-    } else {
-      if (!intervalRef.current) { // Start animation if not already running
-        // Start with front image after loading
-        const frontIndex = ZOLTAR_ANIMATION_SEQUENCE.findIndex(src => src === ZOLTAR_FRONT_IMAGE);
-        setCurrentImageIndex(frontIndex !== -1 ? frontIndex : 0);
-
-        intervalRef.current = window.setInterval(() => {
-          setCurrentImageIndex((prevIndex) => (prevIndex + 1) % ZOLTAR_ANIMATION_SEQUENCE.length);
-        }, ANIMATION_INTERVAL_MS);
-      }
+      const frontIndex = ZOLTAR_ANIMATION_SEQUENCE.indexOf(ZOLTAR_FRONT_IMAGE);
+      setCurrentImageIndex(frontIndex !== -1 ? frontIndex : 0);
+    }
+    // When not loading, start the idle animation if it's not already running.
+    else if (!intervalRef.current) {
+      intervalRef.current = window.setInterval(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % ZOLTAR_ANIMATION_SEQUENCE.length);
+      }, ANIMATION_INTERVAL_MS);
     }
 
+    // Cleanup: clear the interval when the component unmounts or `isLoading` changes.
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [isLoading]); // Only re-run when isLoading changes
+  }, [isLoading]);
 
-
-  const currentImageSrc = isLoading 
-    ? ZOLTAR_FRONT_IMAGE 
+  const currentImageSrc = isLoading
+    ? ZOLTAR_FRONT_IMAGE
     : ZOLTAR_ANIMATION_SEQUENCE[currentImageIndex];
 
   return (
@@ -65,21 +64,21 @@ export const ZoltarMachine: React.FC<ZoltarMachineProps> = ({ onGetFortune, isLo
       <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-4 bg-yellow-500 rounded-t-md border-x-2 border-t-2 border-yellow-600"></div>
 
       {/* Zoltar Window */}
-      <div className={`relative bg-black bg-opacity-70 backdrop-blur-sm p-4 rounded-lg shadow-inner mb-6 h-64 flex items-center justify-center overflow-hidden border-2 border-yellow-600`}>
-        
+      <div className="relative bg-black bg-opacity-70 backdrop-blur-sm p-4 rounded-lg shadow-inner mb-6 h-64 flex items-center justify-center overflow-hidden border-2 border-yellow-600">
+
         {/* Background Smoke Elements */}
         <div className="smoke-particle" style={{ width: '100px', height: '100px', bottom: '10%', left: '15%', animationDuration: '8s', animationDelay: '0s', zIndex: 1 }}></div>
         <div className="smoke-particle" style={{ width: '120px', height: '120px', bottom: '5%', left: '50%', transform: 'translateX(-50%)', animationDuration: '10s', animationDelay: '2s', zIndex: 1 }}></div>
         <div className="smoke-particle" style={{ width: '90px', height: '90px', bottom: '12%', right: '10%', animationDuration: '9s', animationDelay: '1s', zIndex: 1 }}></div>
 
-        <img 
+        <img
           src={currentImageSrc}
           alt={t('zoltarMachine.zoltarImageAlt')}
           className={`max-h-full max-w-full object-contain transition-all duration-300 ease-in-out z-10
                       ${isLoading ? 'opacity-60 scale-95 brightness-75' : 'opacity-100 scale-100 brightness-100 zoltar-avatar-animate'}`}
           aria-live="polite"
         />
-        
+
         {/* Foreground Smoke Elements (at the bottom) */}
         <div className="smoke-particle" style={{ width: '80px', height: '40px', bottom: '-10px', left: '25%', animationDuration: '7s', animationDelay: '0.5s', zIndex: 11, opacity: 0.2 }}></div>
         <div className="smoke-particle" style={{ width: '100px', height: '50px', bottom: '-15px', left: '60%', animationDuration: '8s', animationDelay: '1.5s', zIndex: 11, opacity: 0.25 }}></div>
@@ -106,13 +105,13 @@ export const ZoltarMachine: React.FC<ZoltarMachineProps> = ({ onGetFortune, isLo
           disabled={isLoading}
           aria-label={isLoading ? t('zoltarMachine.buttonConsultingSpirits') : t('zoltarMachine.buttonRevealFortune')}
           className={`w-full font-cinzel text-xl font-bold py-4 px-6 rounded-lg shadow-lg transition-all duration-300 ease-in-out
-                      ${(isLoading) 
-                        ? 'bg-slate-600 text-slate-400 cursor-not-allowed' 
+                      ${isLoading
+                        ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
                         : 'bg-yellow-500 hover:bg-yellow-400 text-red-900 hover:shadow-yellow-500/70 transform hover:scale-105 active:scale-95'
                       }`}
         >
-          {isLoading 
-            ? t('zoltarMachine.buttonConsultingSpirits') 
+          {isLoading
+            ? t('zoltarMachine.buttonConsultingSpirits')
             : t('zoltarMachine.buttonRevealFortune')
           }
         </button>
