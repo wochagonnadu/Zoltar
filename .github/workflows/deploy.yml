@@ -43,6 +43,13 @@ jobs:
           VITE_APP_TITLE: ${{ secrets.VITE_APP_TITLE }}
         run: npm run build
 
+      - name: Ensure public assets are present
+        run: |
+          mkdir -p dist
+          if [ -d public ]; then
+            cp -R public/* dist/ || true
+          fi
+
       - name: Sanity check built index.html
         run: |
           test -f dist/index.html || { echo "dist/index.html missing"; exit 1; }

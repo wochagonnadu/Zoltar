@@ -75,7 +75,16 @@ export const getFortuneFromOpenRouter = async (
       return "errors.api.fetchError";
     }
     const data = await response.json();
-    let fortune = data.choices?.[0]?.message?.content;
+    // Try multiple shapes some providers use via OpenRouter
+    let fortune: any = data.choices?.[0]?.message?.content;
+    if (!fortune) {
+      const alt = data.choices?.[0]?.content; // some return string or array
+      if (Array.isArray(alt)) {
+        fortune = alt.map((p: any) => p?.text ?? p).join('').trim();
+      } else if (typeof alt === 'string') {
+        fortune = alt;
+      }
+    }
     if (!fortune) {
       console.error("OpenRouter API: ответ не содержит предсказания", data);
       return "errors.api.noFortune";
