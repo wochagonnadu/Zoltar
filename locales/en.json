@@ -1,0 +1,41 @@
+
+{
+  "appName": "ZOLTAR SPEAKS",
+  "appSubtitle": "What mysteries will your future hold?",
+  "footerCopyright": "© {year} Zoltar Digital. Fortunes are for entertainment purposes only.",
+  "footerPoweredBy": "Powered by Ancient Magic & Modern AI.",
+  "languageSwitcher": {
+    "select": "Language:",
+    "en": "English",
+    "ru": "Русский",
+    "de": "Deutsch"
+  },
+  "zoltarMachine": {
+    "approachSeeker": "Approach, seeker, and learn your fate!",
+    "ponders": "Zoltar Ponders...",
+    "buttonRevealFortune": "Reveal My Fortune!",
+    "buttonConsultingSpirits": "Consulting the Spirits...",
+    "zoltarImageAlt": "The mystical Zoltar"
+  },
+  "fortuneTicket": {
+    "title": "Your Fortune",
+    "buttonSeekAnother": "Seek Another Vision"
+  },
+  "errors": {
+    "default": "An unknown error occurred. Zoltar is resting.",
+    "zoltarPerplexed": "Zoltar is perplexed!",
+    "api": {
+      "keyMissing": "Zoltar's connection to the ethereal plane requires a secret key (API Key not configured).",
+      "modelMissing": "Zoltar's chosen conduit to the spirits is unavailable (AI Model ID not configured).",
+      "keyInvalid": "Zoltar's mystical connection is broken (Invalid or misconfigured API Key). Please verify the ancient scrolls (API Key).",
+      "emptyResponse": "Zoltar's vision is cloudy... No fortune was revealed (empty response from API).",
+      "unexpectedError": "Zoltar encountered an unexpected interference while communing with the spirits. Please try again later.",
+      "fetchError": "Zoltar's connection to the spirit world was interrupted (Network or API fetch error).",
+      "quotaExceeded": "Zoltar's spiritual energy is depleted for now (API quota likely exceeded or payment required). Try again later.",
+      "rateLimited": "Zoltar is being consulted too frequently. Please allow a moment for the spirits to gather."
+    }
+  },
+  "prompts": {
+    "getFortune": "You are Zoltar, the all-seeing, all-knowing mystical fortune-telling machine. Generate ONLY ONE short, enigmatic, and insightful fortune in a single line. Your words carry the weight of destiny and ancient wisdom. Respond exclusively with one concise phrase, suitable for a printed ticket. Respond in the language of the user's request.\nExample response: \"Wisdom comes to those who listen to the whispers of fate.\""
+  }
+}

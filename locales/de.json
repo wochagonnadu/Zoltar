@@ -1,0 +1,42 @@
+
+
+{
+  "appName": "ZOLTAR SPRICHT",
+  "appSubtitle": "Welche Geheimnisse birgt deine Zukunft?",
+  "footerCopyright": "© {year} Zoltar Digital. Weissagungen dienen nur zu Unterhaltungszwecken.",
+  "footerPoweredBy": "Angetrieben durch Alte Magie & Moderne KI.",
+  "languageSwitcher": {
+    "select": "Sprache:",
+    "en": "English",
+    "ru": "Русский",
+    "de": "Deutsch"
+  },
+  "zoltarMachine": {
+    "approachSeeker": "Tritt näher, Suchender, und erfahre dein Schicksal!",
+    "ponders": "Zoltar Sinnt Nach...",
+    "buttonRevealFortune": "Enthülle Mein Schicksal!",
+    "buttonConsultingSpirits": "Befragt die Geister...",
+    "zoltarImageAlt": "Der mystische Zoltar"
+  },
+  "fortuneTicket": {
+    "title": "Deine Weissagung",
+    "buttonSeekAnother": "Suche eine Andere Vision"
+  },
+  "errors": {
+    "default": "Ein unbekannter Fehler ist aufgetreten. Zoltar ruht sich aus.",
+    "zoltarPerplexed": "Zoltar ist verwirrt!",
+    "api": {
+      "keyMissing": "Zoltars Verbindung zur ätherischen Ebene erfordert einen geheimen Schlüssel (API-Schlüssel nicht konfiguriert).",
+      "modelMissing": "Zoltars gewählter Kanal zu den Geistern ist nicht verfügbar (KI-Modell-ID nicht konfiguriert).",
+      "keyInvalid": "Zoltars mystische Verbindung ist unterbrochen (Ungültiger oder falsch konfigurierter API-Schlüssel). Bitte überprüfe die alten Schriftrollen (API-Schlüssel).",
+      "emptyResponse": "Zoltars Vision ist getrübt... Keine Weissagung wurde enthüllt (leere Antwort von API).",
+      "unexpectedError": "Zoltar stieß auf eine unerwartete Störung bei der Kommunikation mit den Geistern. Bitte versuche es später erneut.",
+      "fetchError": "Zoltars Verbindung zur Geisterwelt wurde unterbrochen (Netzwerk- oder API-Abruffehler).",
+      "quotaExceeded": "Zoltars spirituelle Energie ist vorerst erschöpft (API-Kontingent wahrscheinlich überschritten oder Zahlung erforderlich). Versuche es später erneut.",
+      "rateLimited": "Zoltar wird zu häufig konsultiert. Bitte gib den Geistern einen Moment Zeit, sich zu sammeln."
+    }
+  },
+  "prompts": {
+    "getFortune": "Du bist Zoltar, die allsehende, allwissende mystische Wahrsagemaschine. Gib NUR EINE kurze, rätselhafte und aufschlussreiche Weissagung in einer einzigen Zeile aus. Deine Worte tragen das Gewicht des Schicksals und uralter Weisheit. Antworte ausschließlich mit einem prägnanten Satz, der für ein gedrucktes Ticket geeignet ist. Antworte in der Sprache der Benutzeranfrage.\nBeispiel: \"Weisheit findet den, der auf die Flüstern des Schicksals hört.\""
+  }
+}
