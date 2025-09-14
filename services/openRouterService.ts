@@ -15,15 +15,15 @@ export const getFortuneFromOpenRouter = async (
 ): Promise<string> => {
   if (!OPENROUTER_API_KEY) {
     console.error("getFortuneFromOpenRouter: OpenRouter API key is not configured.");
-    return "errors.api.keyMissing";
+    throw new Error("errors.api.keyMissing");
   }
   if (!TEXT_MODEL_ID) {
     console.error("getFortuneFromOpenRouter: OpenRouter text model ID is not configured.");
-    return "errors.api.modelMissing";
+    throw new Error("errors.api.modelMissing");
   }
   if (!systemPromptContent) {
     console.error("getFortuneFromOpenRouter: systemPromptContent is missing.");
-    return "errors.api.promptMissing";
+    throw new Error("errors.api.promptMissing");
   }
   try {
     // Debug: do not print the full key. Show a small masked sample so we can
@@ -76,7 +76,10 @@ export const getFortuneFromOpenRouter = async (
       try { parsed = text ? JSON.parse(text) : {}; } catch(e) { parsed = { raw: text }; }
       // eslint-disable-next-line no-console
       console.error('OpenRouter API error status:', response.status, 'body:', parsed);
-      return "errors.api.fetchError";
+      // Differentiate a bit, but keep a single user-facing key if needed
+      if (response.status === 401) throw new Error("errors.api.unauthorized");
+      if (response.status === 429) throw new Error("errors.api.rateLimited");
+      throw new Error("errors.api.fetchError");
     }
     const data = await response.json();
     // Try multiple shapes some providers use via OpenRouter
@@ -91,7 +94,7 @@ export const getFortuneFromOpenRouter = async (
     }
     if (!fortune) {
       console.error("OpenRouter API: ответ не содержит предсказания", data);
-      return "errors.api.noFortune";
+      throw new Error("errors.api.noFortune");
     }
     // Удаляем префикс "/English Fortune:" если он есть
     fortune = fortune.replace(/^\/?English Fortune:\s*/i, "");
@@ -99,8 +102,8 @@ export const getFortuneFromOpenRouter = async (
   } catch (error) {
     console.error("Error in getFortuneFromOpenRouter:", error);
     if (error instanceof Error && error.message.startsWith("errors.api.")) {
-      return error.message;
+      throw error; // propagate for i18n handling in UI
     }
-    return "errors.api.unexpectedError";
+    throw new Error("errors.api.unexpectedError");
   }
 };
