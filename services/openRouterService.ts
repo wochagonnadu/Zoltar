@@ -50,19 +50,23 @@ export const getFortuneFromOpenRouter = async (
       headers['HTTP-Referer'] = window.location.origin;
     }
   }
-  const response = await fetch(endpoint, {
+    // Add a small changing signal to avoid provider-side caching and encourage variety
+    const nonce = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const userPrompt = `Please reveal a concise, positive fortune. Make it different from previous ones. Language: ${language}. Session: ${nonce}`;
+
+    const response = await fetch(endpoint, {
       method: "POST",
       headers,
       body: JSON.stringify({
         model: TEXT_MODEL_ID,
         messages: [
-          {
-            role: "system",
-            content: systemPromptContent + (language ? `\nLanguage: ${language}` : "")
-          }
+          { role: "system", content: systemPromptContent + (language ? `\nLanguage: ${language}` : "") },
+          { role: "user", content: userPrompt }
         ],
         max_tokens: 128,
-        temperature: 0.8
+        temperature: 1.0,
+        presence_penalty: 0.6,
+        frequency_penalty: 0.2
       })
     });
     // Debug: check response status and body for clearer diagnosis of 401
