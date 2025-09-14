@@ -42,6 +42,9 @@ export const getFortuneFromOpenRouter = async (
       headers: {
         "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
+        // Recommended by OpenRouter to aid routing/limits; not required.
+        "HTTP-Referer": window?.location?.origin || 'https://github.com/wochagonnadu/Zoltar',
+        "X-Title": (typeof document !== 'undefined' && document.title) || 'Zoltar',
       },
       body: JSON.stringify({
         model: TEXT_MODEL_ID,

@@ -36,6 +36,11 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          VITE_OPENROUTER_API_KEY: ${{ secrets.VITE_OPENROUTER_API_KEY }}
+          VITE_OPENROUTER_API_URL: ${{ secrets.VITE_OPENROUTER_API_URL }}
+          VITE_TEXT_MODEL_ID: ${{ secrets.VITE_TEXT_MODEL_ID }}
+          VITE_APP_TITLE: ${{ secrets.VITE_APP_TITLE }}
         run: npm run build
 
       - name: Add SPA fallback (404.html)
