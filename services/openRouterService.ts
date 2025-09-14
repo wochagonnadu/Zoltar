@@ -3,7 +3,7 @@
 // WHAT: Клиент для OpenRouter chat completions API
 // WHY:  Получает предсказание от модели через OpenRouter
 // RELEVANT: config.ts, App.tsx, .env
-import { OPENROUTER_API_KEY, TEXT_MODEL_ID, OPENROUTER_API_URL } from '../config';
+import { OPENROUTER_API_KEY, TEXT_MODEL_ID, OPENROUTER_API_URL, OPENROUTER_PROXY_URL } from '../config';
 
 // Полный endpoint собираем из базового URL в конфиге
 const apiUrl = OPENROUTER_API_URL.endsWith('/') ? OPENROUTER_API_URL.slice(0, -1) : OPENROUTER_API_URL;
@@ -37,15 +37,22 @@ export const getFortuneFromOpenRouter = async (
       // eslint-disable-next-line no-console
       console.debug('OpenRouter config - apiKeySample:', apiKeySample, 'apiKeyPresent:', Boolean(OPENROUTER_API_KEY), 'model:', TEXT_MODEL_ID, 'endpoint:', OPENROUTER_CHAT_COMPLETIONS);
     }
-  const response = await fetch(OPENROUTER_CHAT_COMPLETIONS, {
+  const useProxy = Boolean(OPENROUTER_PROXY_URL);
+  const endpoint = useProxy ? OPENROUTER_PROXY_URL : OPENROUTER_CHAT_COMPLETIONS;
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  if (!useProxy) {
+    headers['Authorization'] = `Bearer ${OPENROUTER_API_KEY}`;
+    headers['X-Title'] = (typeof document !== 'undefined' && document.title) || 'Zoltar';
+    // Browser automatically sets Referer; for server/edge proxies set HTTP-Referer.
+    if (typeof window !== 'undefined') {
+      headers['HTTP-Referer'] = window.location.origin;
+    }
+  }
+  const response = await fetch(endpoint, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json",
-        // Recommended by OpenRouter to aid routing/limits; not required.
-        "HTTP-Referer": window?.location?.origin || 'https://github.com/wochagonnadu/Zoltar',
-        "X-Title": (typeof document !== 'undefined' && document.title) || 'Zoltar',
-      },
+      headers,
       body: JSON.stringify({
         model: TEXT_MODEL_ID,
         messages: [

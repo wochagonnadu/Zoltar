@@ -7,6 +7,7 @@
 interface ImportMetaEnv {
   // Vite's base path for assets and router
   readonly BASE_URL: string;
+  readonly VITE_OPENROUTER_PROXY_URL?: string;
   readonly VITE_OPENROUTER_API_KEY?: string;
   readonly VITE_OPENROUTER_API_URL?: string;
   readonly VITE_APP_TITLE?: string;

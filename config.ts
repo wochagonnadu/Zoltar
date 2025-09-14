@@ -16,6 +16,7 @@ export const OPENROUTER_API_KEY: string = sanitize(import.meta.env.VITE_OPENROUT
 export const OPENROUTER_API_URL: string = sanitize(import.meta.env.VITE_OPENROUTER_API_URL as string) || 'https://openrouter.ai/api/v1';
 export const APP_TITLE: string = sanitize(import.meta.env.VITE_APP_TITLE as string) || 'Zoltar Speaks';
 export const TEXT_MODEL_ID: string = sanitize(import.meta.env.VITE_TEXT_MODEL_ID as string) || 'deepseek/deepseek-chat-v3-0324:free';
+export const OPENROUTER_PROXY_URL: string = sanitize(import.meta.env.VITE_OPENROUTER_PROXY_URL as string) || '';
 
 // If you plan to use OpenRouter for image generation in the future
 // export const IMAGE_MODEL_ID: string = (import.meta.env.VITE_IMAGE_MODEL_ID as string) ?? "stability-ai/sdxl:free";
