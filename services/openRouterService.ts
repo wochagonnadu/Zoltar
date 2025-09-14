@@ -1,6 +1,10 @@
-// services/openRouterService.ts
+// PATH: services/openRouterService.ts
+// WHAT: Service for interacting with the OpenRouter API.
+// WHY: To fetch fortunes from the LLM.
+// RELEVANT: config.ts, App.tsx
+
 import { OPENROUTER_API_KEY, TEXT_MODEL_ID } from '../config';
-// Для работы нужен URL API
+
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 export const getFortuneFromOpenRouter = async (
