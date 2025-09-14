@@ -6,6 +6,7 @@
     <!-- Removed favicon reference to avoid 404 on Pages (no icon in repo) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zoltar Fortune Teller</title>
+    <link rel="icon" href="data:," />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@400;500&display=swap');
@@ -20,8 +21,10 @@
   </head>
   <body class="bg-slate-900">
     <div id="root"></div>
-    <!-- Use relative path so Vite rebases with configured base during build -->
-    <script type="module" src="./index.tsx"></script>
+    <!-- Inline module ensures Vite transforms entry during build -->
+    <script type="module">
+      import './index.tsx';
+    </script>
   </body>
 </html>
 <!-- Removed stray duplicate tags that caused incorrect asset requests on Pages -->
