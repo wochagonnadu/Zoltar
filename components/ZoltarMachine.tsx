@@ -12,13 +12,15 @@ interface ZoltarMachineProps {
   isLoading: boolean;
 }
 
+// Use Vite base URL so paths work on GitHub Pages and locally.
+const BASE = import.meta.env.BASE_URL || '/';
 const ZOLTAR_ANIMATION_SEQUENCE = [
-  '/images/front.png',
-  '/images/left.png',
-  '/images/front.png',
-  '/images/right.png',
+  `${BASE}images/front.png`,
+  `${BASE}images/left.png`,
+  `${BASE}images/front.png`,
+  `${BASE}images/right.png`,
 ];
-const ZOLTAR_FRONT_IMAGE = '/images/front.png';
+const ZOLTAR_FRONT_IMAGE = `${BASE}images/front.png`;
 const ANIMATION_INTERVAL_MS = 1500;
 
 export const ZoltarMachine: React.FC<ZoltarMachineProps> = ({ onGetFortune, isLoading }) => {
